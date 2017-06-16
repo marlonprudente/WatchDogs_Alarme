@@ -8,7 +8,7 @@ buzz_pin=4
 led_pin=14
 
 GPIO.setmode(GPIO.BCM)
-GPIO.setup(LED_pin, GPIO.OUT)
+GPIO.setup(led_pin, GPIO.OUT)
 GPIO.setup(buzz_pin,GPIO.OUT)
 con = MySQLdb.connect('127.0.0.1', 'root', 'watchdogs')
 con.select_db('wdp')
