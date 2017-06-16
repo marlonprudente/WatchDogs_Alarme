@@ -77,16 +77,12 @@ def disparar():
 
 def sensores():
 	sql = con.cursor()
-	sql.execute('SELECT nome, status FROM sensors')
+	#sql.execute('SELECT nome, status FROM sensors')
 	while True:	
 		for row in sql.fetchall():
 			if GPIO.input(janela1):#| janela2 | janela3 | sala1 | quarto1 | quarto2):
 				sql.execute('UPDATE sensors SET status=2 WHERE status=1')
-				con.commit()
-
-		    
-
-	   
+				con.commit()   
 
 def led():
     global start
@@ -95,6 +91,7 @@ def led():
         time.sleep(3)
         GPIO.output(led_pin,GPIO.LOW)
         time.sleep(3)
+		
 def buzzer():
     global start
     while True:
