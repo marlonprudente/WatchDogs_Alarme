@@ -68,7 +68,7 @@ GPIO.setup(janela1, GPIO.IN, pull_up_down=GPIO.PUD_UP)
 def disparar():
 	sql = con.cursor()
 	sql.execute('SELECT nome, status FROM sensors')
-    global start
+	global start
 	
 	while True:	
       for row in sql.fetchall():
