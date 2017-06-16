@@ -6,7 +6,7 @@ import MySQLdb
 
 buzz_pin=4
 led_pin=14
-
+ativar=0
 GPIO.setmode(GPIO.BCM)
 GPIO.setup(led_pin, GPIO.OUT)
 GPIO.setup(buzz_pin,GPIO.OUT)
@@ -69,18 +69,13 @@ GPIO.setup(janela1, GPIO.IN, pull_up_down=GPIO.PUD_UP)
       # return False	
 
 def disparar():
-	ativou=0
+	global ativar
 	sql = con.cursor()
 	sql.execute('SELECT nome, status FROM sensors')
-	while True:	
-		for row in sql.fetchall(): 
-			if (row[1] == '2'):
-				print "Pega Ladrao"
-				ativou=1
-				break
-		if (ativou==1):
-			Process(target=led).start()
-			Process(target=buzzer).start()
+	for row in sql.fetchall(): 
+		if (row[1] == '2' and ativar=0):
+			GPIO.output(buzz_pin,GPIO.HIGH)
+			ativar=1
 			
 
 def sensores():
@@ -90,6 +85,7 @@ def sensores():
 			if GPIO.input(janela1):#| janela2 | janela3 | sala1 | quarto1 | quarto2):
 				sql.execute('UPDATE sensors SET status=2')
 				con.commit()   
+				disparar()
 
 def led():
     global start
@@ -109,8 +105,7 @@ def buzzer():
 
 
 try:
-      Process(target=sensores).start()
-	  Process(target=disparar).start()	  
+        sensores()
 except KeyboardInterrupt:
   print "voce usou Ctrl+C!"
 finally:
