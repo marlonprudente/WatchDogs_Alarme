@@ -15,7 +15,6 @@ con.select_db('wdp')
 start = time.time()
 sql = con.cursor()
 sql.execute('SELECT nome, pin FROM sensors')
-
 dicionario = {}
 
 for row in sql.fetchall():
@@ -72,8 +71,10 @@ def disparar():
 	global ativar
 	sql = con.cursor()
 	sql.execute('SELECT nome, status FROM sensors')
-	for row in sql.fetchall(): 
-		if (row[1] == '2' and ativar=0):
+	for row in sql.fetchall():
+		print 'b' 
+		if (int(row[1]) == 2 and ativar==0):
+			print 'a'
 			GPIO.output(buzz_pin,GPIO.HIGH)
 			ativar=1
 			
@@ -105,6 +106,9 @@ def buzzer():
 
 
 try:
+	GPIO.output(buzz_pin,GPIO.LOW)
+        sql.execute('UPDATE sensors SET status=-1')
+	con.commit()
         sensores()
 except KeyboardInterrupt:
   print "voce usou Ctrl+C!"
