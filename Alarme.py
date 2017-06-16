@@ -74,7 +74,7 @@ def disparar():
 	sql.execute('SELECT nome, status FROM sensors')
 	while True:	
 		for row in sql.fetchall(): 
-			if (row[1] == 2):
+			if (row[1] == '2'):
 				print "Pega Ladrao"
 				ativou=1
 				break
