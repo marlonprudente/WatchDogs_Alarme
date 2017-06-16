@@ -18,7 +18,7 @@ sql.execute('SELECT nome, pin FROM sensors')
 
 for row in sql.fetchall():
    if (row[0] == "janela1"):
-      janela1 = (int)row[1]
+      janela1 = (int) row[1]
 	#elif (row[0] == "janela2"):
 	#   janela2 = row[1]
 	#elif (row[0] == "janela3"):
