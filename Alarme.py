@@ -71,10 +71,10 @@ def disparar():
 	global start
 	
 	while True:	
-        for row in sql.fetchall():
-	       if (row[1] == 2):
-		      Process(target=led).start()
-    	      Process(target=buzzer).start()
+		for row in sql.fetchall():
+			if (row[1] == 2):
+				Process(target=led).start()
+				Process(target=buzzer).start()
 
 def sensores():
 	sql = con.cursor()
@@ -82,9 +82,9 @@ def sensores():
     global start
 	
 	while True:	
-      for row in sql.fetchall():
-	     if GPIO.input(janela1 || janela2 || janela3 || sala1 || quarto1 || quarto2):
-		    sql.execute('UPDATE sensors SET status=2 WHERE status=1')
+		for row in sql.fetchall():
+			if GPIO.input(janela1 || janela2 || janela3 || sala1 || quarto1 || quarto2):
+				sql.execute('UPDATE sensors SET status=2 WHERE status=1')
 
 		    
 
