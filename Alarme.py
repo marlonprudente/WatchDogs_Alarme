@@ -16,9 +16,12 @@ start = time.time()
 sql = con.cursor()
 sql.execute('SELECT nome, pin FROM sensors')
 
+dicionario = {}
+
 for row in sql.fetchall():
    if (row[0] == "janela1"):
       janela1 = int(row[1])
+	  print "Janela 1 = " + str(janela1)
 	#elif (row[0] == "janela2"):
 	#   janela2 = row[1]
 	#elif (row[0] == "janela3"):
@@ -99,10 +102,6 @@ def buzzer():
         time.sleep(3)
         GPIO.output(buzz_pin,GPIO.LOW)
         time.sleep(3)
-
-
-
-
 
 
 try:
