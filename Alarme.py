@@ -19,9 +19,9 @@ sql.execute('SELECT nome, pin FROM sensors')
 dicionario = {}
 
 for row in sql.fetchall():
-   if (row[0] == "janela1"):
-      janela1 = int(row[1])
-	  print "Janela 1 = " + str(janela1)
+	if (row[0] == "janela1"):
+		janela1 = int(row[1])
+	print "Janela 1 = " + str(janela1)
 	#elif (row[0] == "janela2"):
 	#   janela2 = row[1]
 	#elif (row[0] == "janela3"):
