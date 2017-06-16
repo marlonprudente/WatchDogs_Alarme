@@ -79,7 +79,7 @@ def sensores():
 	sql.execute('SELECT nome, status FROM sensors')
 	while True:	
 		for row in sql.fetchall():
-			if GPIO.input(janela1 | janela2 | janela3 | sala1 | quarto1 | quarto2):
+			if GPIO.input(janela1):#| janela2 | janela3 | sala1 | quarto1 | quarto2):
 				sql.execute('UPDATE sensors SET status=2 WHERE status=1')
 
 		    
