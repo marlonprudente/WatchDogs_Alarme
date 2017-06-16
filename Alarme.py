@@ -37,33 +37,33 @@ GPIO.setup(janela1, GPIO.IN, pull_up_down=GPIO.PUD_UP)
 #GPIO.setup(quarto1, GPIO.IN)
 #GPIO.setup(quarto2, GPIO.IN)
 
-def Ativar():
-	sql = con.cursor()
-	sql.execute('SELECT nome, status FROM sensors')
+# def Ativar():
+	# sql = con.cursor()
+	# sql.execute('SELECT nome, status FROM sensors')
 	
-   for row in sql.fetchall():
-	status_sensor = row[0] + row[1]
-   if (status_sensor < 0):
-      sql.execute('UPDATE sensors SET status=1 WHERE status=-1')
-	  return True
-   elif(status_sensor == len(row)):
-      return True
-   else:
-      return False
+   # for row in sql.fetchall():
+	  # status_sensor = row[0] + row[1]
+      # if (status_sensor < 0):
+         # sql.execute('UPDATE sensors SET status=1 WHERE status=-1')
+	     # return True
+      # elif(status_sensor == len(row)):
+         # return True
+      # else:
+         # return False
 
-def Desativar():
-	sql = con.cursor()
-	sql.execute('SELECT nome, status FROM sensors')
+# def Desativar():
+	# sql = con.cursor()
+	# sql.execute('SELECT nome, status FROM sensors')
 	
-   for row in sql.fetchall():
-	status_sensor += row[1]
-   if (status_sensor == len(row)):
-      sql.execute('UPDATE sensors SET status=-1 WHERE status=1')
-	  return True
-   elif(status_sensor < 0):
-      return True
-   else:
-      return False	
+   # for row in sql.fetchall():
+	# status_sensor += row[1]
+   # if (status_sensor == len(row)):
+      # sql.execute('UPDATE sensors SET status=-1 WHERE status=1')
+	  # return True
+   # elif(status_sensor < 0):
+      # return True
+   # else:
+      # return False	
 
 def disparar():
 	sql = con.cursor()
