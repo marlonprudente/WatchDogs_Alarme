@@ -69,20 +69,24 @@ GPIO.setup(janela1, GPIO.IN, pull_up_down=GPIO.PUD_UP)
       # return False	
 
 def disparar():
+	ativou=0
 	sql = con.cursor()
 	sql.execute('SELECT nome, status FROM sensors')
 	while True:	
-		for row in sql.fetchall():
+		for row in sql.fetchall(): 
 			if (row[1] == 2):
-				print "Pega Ladr?o"
-				Process(target=led).start()
-				Process(target=buzzer).start()
+				print "Pega Ladrao"
+				ativou=1
+				break
+		if (ativou==1):
+			Process(target=led).start()
+			Process(target=buzzer).start()
+			
 
 def sensores():
 	sql = con.cursor()
 	#sql.execute('SELECT nome, status FROM sensors')
 	while True:	
-		for row in sql.fetchall():
 			if GPIO.input(janela1):#| janela2 | janela3 | sala1 | quarto1 | quarto2):
 				sql.execute('UPDATE sensors SET status=2 WHERE status=1')
 				con.commit()   
