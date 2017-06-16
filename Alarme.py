@@ -71,6 +71,7 @@ def disparar():
 	while True:	
 		for row in sql.fetchall():
 			if (row[1] == 2):
+				print "Pega Ladr?o"
 				Process(target=led).start()
 				Process(target=buzzer).start()
 
