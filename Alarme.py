@@ -19,23 +19,23 @@ sql.execute('SELECT nome, pin FROM sensors')
 for row in sql.fetchall():
    if (row[0] == "janela1"):
       janela1 = row[1]
-	elif (row[0] == "janela2"):
-	   janela2 = row[1]
-	elif (row[0] == "janela3"):
-	   janela3 = row[1]
-	elif (row[0] == "sala1"):
-	   sala1 = row[1]
-	elif (row[0] == "quarto1"):
-	   quarto1 = row[1]
-	elif (row[0] == "quarto2"):
-	   quarto2 = row[1]
+	#elif (row[0] == "janela2"):
+	#   janela2 = row[1]
+	#elif (row[0] == "janela3"):
+	#   janela3 = row[1]
+	#elif (row[0] == "sala1"):
+	#   sala1 = row[1]
+	#elif (row[0] == "quarto1"):
+	#   quarto1 = row[1]
+	#elif (row[0] == "quarto2"):
+	#   quarto2 = row[1]
 	   
 GPIO.setup(janela1, GPIO.IN, pull_up_down=GPIO.PUD_UP)
-GPIO.setup(janela2, GPIO.IN, pull_up_down=GPIO.PUD_UP)
-GPIO.setup(janela3, GPIO.IN, pull_up_down=GPIO.PUD_UP)
-GPIO.setup(sala1, GPIO.IN)
-GPIO.setup(quarto1, GPIO.IN)
-GPIO.setup(quarto2, GPIO.IN)
+#GPIO.setup(janela2, GPIO.IN, pull_up_down=GPIO.PUD_UP)
+#GPIO.setup(janela3, GPIO.IN, pull_up_down=GPIO.PUD_UP)
+#GPIO.setup(sala1, GPIO.IN)
+#GPIO.setup(quarto1, GPIO.IN)
+#GPIO.setup(quarto2, GPIO.IN)
 
 def Ativar():
 	sql = con.cursor()
@@ -110,14 +110,8 @@ def buzzer():
 
 try:
   while True:
-    if GPIO.input(pir_pin):
-    	#Process(target=led).start()
-    	#Process(target=buzzer).start()
-        GPIO.output(buzz_pin, GPIO.HIGH)
-    if GPIO.input(door_pin):
-        GPIO.output(buzz_pin, GPIO.HIGH)
-    if not GPIO.input(button_pin):
-        GPIO.output(buzz_pin, GPIO.LOW)
+      Process(target=sensores).start()
+	  Process(target=disparar).start()
 except KeyboardInterrupt:
   print "voce usou Ctrl+C!"
 finally:
