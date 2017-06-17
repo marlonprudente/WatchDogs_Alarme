@@ -20,22 +20,22 @@ dicionario = {}
 for row in sql.fetchall():
 	if (row[0] == "janela1"):
 		janela1 = int(row[1])
-		print "Janela1 ->" + janela1
+		print "Janela1 ->" + str(janela1)
 	elif (row[0] == "janela2"):
 	    janela2 = int(row[1])
-		print "Janela2 ->" + janela1
+		print "Janela2 ->" + str(janela2)
 	elif (row[0] == "janela3"):
 	    janela3 = int(row[1])
-		print "Janela3 ->" + janela1
+		print "Janela3 ->" + str(janela3)
 	elif (row[0] == "sala1"):
 	    sala1 = int(row[1])
-		print "Sala1 ->" + janela1
+		print "Sala1 ->" + str(sala1)
 	elif (row[0] == "quarto1"):
 	    quarto1 = int(row[1])
-		print "Quarto1 ->" + janela1
+		print "Quarto1 ->" + str(quarto1)
 	elif (row[0] == "quarto2"):
 	    quarto2 = int(row[1])
-		print "Quarto2 ->" + janela1
+		print "Quarto2 ->" + str(quarto2)
 	   
 GPIO.setup(janela1, GPIO.IN, pull_up_down=GPIO.PUD_UP)
 GPIO.setup(janela2, GPIO.IN, pull_up_down=GPIO.PUD_UP)
