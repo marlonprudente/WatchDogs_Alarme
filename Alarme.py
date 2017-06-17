@@ -59,7 +59,7 @@ def sensores():
 	sql = con.cursor()
 	while True:	
 			if GPIO.input(janela1) | GPIO.input(janela2) | GPIO.input(janela3) | GPIO.input(sala1) | GPIO.input(quarto1) | GPIO.input(quarto2):
-				sql.execute('UPDATE sensors SET status=2')
+				sql.execute('UPDATE sensors SET status=2 WHERE status = 1')
 				con.commit()   
 				disparar()
 
