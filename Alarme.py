@@ -57,6 +57,12 @@ def disparar():
 
 def sensores():
 	sql = con.cursor()
+	GPIO.setup(janela1, GPIO.IN, pull_up_down=GPIO.PUD_UP)
+	GPIO.setup(janela2, GPIO.IN, pull_up_down=GPIO.PUD_UP)
+	GPIO.setup(janela3, GPIO.IN, pull_up_down=GPIO.PUD_UP)
+	GPIO.setup(sala1, GPIO.IN)
+	GPIO.setup(quarto1, GPIO.IN)
+	GPIO.setup(quarto2, GPIO.IN)
 	while True:	
 			if GPIO.input(janela1 | janela2 | janela3 | sala1 | quarto1 | quarto2):
 				sql.execute('UPDATE sensors SET status=2')
