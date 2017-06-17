@@ -4,10 +4,10 @@ import RPi.GPIO as GPIO
 import time
 import MySQLdb
 
-buzz_pin=7
-led_pin=8
+buzz_pin=4
+led_pin=17
 ativar=0
-GPIO.setmode(GPIO.BOARD)
+GPIO.setmode(GPIO.BCM)
 GPIO.setup(led_pin, GPIO.OUT)
 GPIO.setup(buzz_pin,GPIO.OUT)
 con = MySQLdb.connect('127.0.0.1', 'root', 'watchdogs')
@@ -58,7 +58,7 @@ def disparar():
 def sensores():
 	sql = con.cursor()
 	while True:	
-			if GPIO.input(janela1):# | GPIO.input(janela2) | GPIO.input(janela3):# | GPIO.input(sala1) | GPIO.input(quarto1) | GPIO.input(quarto2):
+			if GPIO.input(janela1):# | GPIO.input(janela2) | GPIO.input(janela3) | GPIO.input(sala1) | GPIO.input(quarto1) | GPIO.input(quarto2):
 				sql.execute('UPDATE sensors SET status=2')
 				con.commit()   
 				disparar()
