@@ -76,7 +76,7 @@ def buzzer():
 
 try:
 	GPIO.output(buzz_pin,GPIO.LOW)
-    sql.execute('UPDATE sensors SET status=-1')
+		sql.execute('UPDATE sensors SET status=-1')
 	con.commit()
     sensores()
 	
