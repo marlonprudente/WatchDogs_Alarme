@@ -20,16 +20,22 @@ dicionario = {}
 for row in sql.fetchall():
 	if (row[0] == "janela1"):
 		janela1 = int(row[1])
+		print "Janela1 ->" + janela1
 	elif (row[0] == "janela2"):
 	    janela2 = int(row[1])
+		print "Janela2 ->" + janela1
 	elif (row[0] == "janela3"):
 	    janela3 = int(row[1])
+		print "Janela3 ->" + janela1
 	elif (row[0] == "sala1"):
 	    sala1 = int(row[1])
+		print "Sala1 ->" + janela1
 	elif (row[0] == "quarto1"):
 	    quarto1 = int(row[1])
+		print "Quarto1 ->" + janela1
 	elif (row[0] == "quarto2"):
 	    quarto2 = int(row[1])
+		print "Quarto2 ->" + janela1
 	   
 GPIO.setup(janela1, GPIO.IN, pull_up_down=GPIO.PUD_UP)
 GPIO.setup(janela2, GPIO.IN, pull_up_down=GPIO.PUD_UP)
@@ -76,7 +82,7 @@ def buzzer():
 
 try:
 	GPIO.output(buzz_pin,GPIO.LOW)
-		sql.execute('UPDATE sensors SET status=-1')
+	sql.execute('UPDATE sensors SET status=-1')
 	con.commit()
     sensores()
 	
