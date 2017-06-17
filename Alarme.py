@@ -5,7 +5,7 @@ import time
 import MySQLdb
 
 buzz_pin=7
-led_pin=14
+led_pin=8
 ativar=0
 GPIO.setmode(GPIO.BOARD)
 GPIO.setup(led_pin, GPIO.OUT)
