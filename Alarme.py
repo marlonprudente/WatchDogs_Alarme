@@ -20,70 +20,39 @@ dicionario = {}
 for row in sql.fetchall():
 	if (row[0] == "janela1"):
 		janela1 = int(row[1])
-	print "Janela 1 = " + str(janela1)
-	#elif (row[0] == "janela2"):
-	#   janela2 = row[1]
-	#elif (row[0] == "janela3"):
-	#   janela3 = row[1]
-	#elif (row[0] == "sala1"):
-	#   sala1 = row[1]
-	#elif (row[0] == "quarto1"):
-	#   quarto1 = row[1]
-	#elif (row[0] == "quarto2"):
-	#   quarto2 = row[1]
+	elif (row[0] == "janela2"):
+	    janela2 = int(row[1])
+	elif (row[0] == "janela3"):
+	    janela3 = int(row[1])
+	elif (row[0] == "sala1"):
+	    sala1 = int(row[1])
+	elif (row[0] == "quarto1"):
+	    quarto1 = int(row[1])
+	elif (row[0] == "quarto2"):
+	    quarto2 = int(row[1])
 	   
 GPIO.setup(janela1, GPIO.IN, pull_up_down=GPIO.PUD_UP)
-#GPIO.setup(janela2, GPIO.IN, pull_up_down=GPIO.PUD_UP)
-#GPIO.setup(janela3, GPIO.IN, pull_up_down=GPIO.PUD_UP)
-#GPIO.setup(sala1, GPIO.IN)
-#GPIO.setup(quarto1, GPIO.IN)
-#GPIO.setup(quarto2, GPIO.IN)
-
-# def Ativar():
-	# sql = con.cursor()
-	# sql.execute('SELECT nome, status FROM sensors')
-	
-   # for row in sql.fetchall():
-	  # status_sensor = row[0] + row[1]
-      # if (status_sensor < 0):
-         # sql.execute('UPDATE sensors SET status=1 WHERE status=-1')
-	     # return True
-      # elif(status_sensor == len(row)):
-         # return True
-      # else:
-         # return False
-
-# def Desativar():
-	# sql = con.cursor()
-	# sql.execute('SELECT nome, status FROM sensors')
-	
-   # for row in sql.fetchall():
-	# status_sensor += row[1]
-   # if (status_sensor == len(row)):
-      # sql.execute('UPDATE sensors SET status=-1 WHERE status=1')
-	  # return True
-   # elif(status_sensor < 0):
-      # return True
-   # else:
-      # return False	
+GPIO.setup(janela2, GPIO.IN, pull_up_down=GPIO.PUD_UP)
+GPIO.setup(janela3, GPIO.IN, pull_up_down=GPIO.PUD_UP)
+GPIO.setup(sala1, GPIO.IN)
+GPIO.setup(quarto1, GPIO.IN)
+GPIO.setup(quarto2, GPIO.IN)	
 
 def disparar():
 	global ativar
 	sql = con.cursor()
 	sql.execute('SELECT nome, status FROM sensors')
 	for row in sql.fetchall():
-		print 'b' 
 		if (int(row[1]) == 2 and ativar==0):
-			print 'a'
 			GPIO.output(buzz_pin,GPIO.HIGH)
+			GPIO.output(led_pin,GPIO.HIGH)
 			ativar=1
 			
 
 def sensores():
 	sql = con.cursor()
-	#sql.execute('SELECT nome, status FROM sensors')
 	while True:	
-			if GPIO.input(janela1):#| janela2 | janela3 | sala1 | quarto1 | quarto2):
+			if GPIO.input(janela1 | janela2 | janela3 | sala1 | quarto1 | quarto2):
 				sql.execute('UPDATE sensors SET status=2')
 				con.commit()   
 				disparar()
@@ -107,9 +76,10 @@ def buzzer():
 
 try:
 	GPIO.output(buzz_pin,GPIO.LOW)
-        sql.execute('UPDATE sensors SET status=-1')
+    sql.execute('UPDATE sensors SET status=-1')
 	con.commit()
-        sensores()
+    sensores()
+	
 except KeyboardInterrupt:
   print "voce usou Ctrl+C!"
 finally:
