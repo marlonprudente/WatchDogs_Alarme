@@ -62,12 +62,39 @@ def desativar():
 			
 def sensores():
 	sql = con.cursor()
+	sql.execute('SELECT nome, status FROM sensors')
 	global ativar	
 	while True:	
-			if GPIO.input(janela1) | GPIO.input(janela2) | GPIO.input(janela3) | GPIO.input(sala1) | GPIO.input(quarto1) | GPIO.input(quarto2):
-				sql.execute('UPDATE sensors SET status=2 WHERE status = 1')
-				con.commit()   
-				disparar()
+			for row in sql.fetchall():
+			   if GPIO.input(janela1) and int(row[1]) == 1:
+			      sql.execute('UPDATE sensors SET status=2 WHERE status=1')
+				  con.commit()   
+				  disparar()
+			   if GPIO.input(janela2) and int(row[1]) == 1:
+			      sql.execute('UPDATE sensors SET status=2 WHERE status=1')
+				  con.commit()   
+				  disparar()
+			   if GPIO.input(janela3) and int(row[1]) == 1:
+			      sql.execute('UPDATE sensors SET status=2 WHERE status=1')
+				  con.commit()   
+				  disparar()
+			   if GPIO.input(sala1) and int(row[1]) == 1:
+			      sql.execute('UPDATE sensors SET status=2 WHERE status= 1')
+				  con.commit()   
+				  disparar()
+			   if GPIO.input(quarto1) and int(row[1]) == 1:
+			      sql.execute('UPDATE sensors SET status=2 WHERE status = 1')
+				  con.commit()   
+				  disparar()
+			   if GPIO.input(quarto2) and int(row[1]) == 1:
+			      sql.execute('UPDATE sensors SET status=2 WHERE status = 1')
+				  con.commit()   
+				  disparar()
+				  
+			# if GPIO.input(janela1) | GPIO.input(janela2) | GPIO.input(janela3) | GPIO.input(sala1) | GPIO.input(quarto1) | GPIO.input(quarto2):
+				# sql.execute('UPDATE sensors SET status=2 WHERE status = 1')
+				# con.commit()   
+				# disparar()
 			sql.execute('SELECT nome, status FROM sensors')
 			for row in sql.fetchall():
 				if (int(row[1]) == -1 and ativar==1):
