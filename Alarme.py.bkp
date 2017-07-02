@@ -11,7 +11,6 @@ led_pin=17
 not_pin=19
 cam_pin=26
 ativar=0
-tempo_antigo = datetime.datetime.now()
 GPIO.setmode(GPIO.BCM)
 GPIO.setup(buzz_pin,GPIO.OUT)
 GPIO.setup(not_pin, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
@@ -76,22 +75,19 @@ def desativar():
 def inserir(idsensor,tipo):
 	global con
 	global sql
-	global tempo_antigo
 	sql.execute('SELECT MAX(id_historico) FROM  historico')
         con.commit()
         max=int(sql.fetchone()[0])
         max=max+1
         now=datetime.datetime.now()
-	if(now != tempo_antigo):
-		tempo_antigo = now
-        	sql.execute("INSERT INTO historico(id_historico,id_sensor,tipo_ocorrencia,data_ocorrencia) VALUES (%s,%s,%s,%s)",(str(max),idsensor,tipo,now.strftime('%Y-%m-%d %H:%M:%S')))
-        	con.commit()
+        sql.execute("INSERT INTO historico(id_historico,id_sensor,tipo_ocorrencia,data_ocorrencia) VALUES (%s,%s,%s,%s)",(str(max),idsensor,tipo,now.strftime('%Y-%m-%d %H:%M:%S')))
+        con.commit()
 def notificacao(tipo):
 	global con
         global sql
         sql.execute('SELECT MAX(id_not) FROM  notificacao')
         con.commit()
-        max=int(sql.fetchone()[0] or 0)
+        max=int(sql.fetchone()[0])
         max=max+1
         now=datetime.datetime.now()
         sql.execute("INSERT INTO notificacao(id_not,tipo_not) VALUES (%s,%s)",(str(max),tipo+now.strftime('%Y-%m-%d %H:%M:%S')))
@@ -183,8 +179,6 @@ def sensores():
 			     inserir(None,'Alarme desativado pela camera')
 			     time.sleep(0.1)
 			agendamento('data_desativ')
-			sql.execute('SELECT id, status FROM sensors')
-			con.commit()
 			for row in sql.fetchall():
 				if (int(row[1]) == 0 and ativar==1):
 					desativar()
