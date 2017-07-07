@@ -82,10 +82,8 @@ def inserir(idsensor,tipo):
         max=int(sql.fetchone()[0])
         max=max+1
         now=datetime.datetime.now()
-	if(now != tempo_antigo):
-		tempo_antigo = now
-        	sql.execute("INSERT INTO historico(id_historico,id_sensor,tipo_ocorrencia,data_ocorrencia) VALUES (%s,%s,%s,%s)",(str(max),idsensor,tipo,now.strftime('%Y-%m-%d %H:%M:%S')))
-        	con.commit()
+        sql.execute("INSERT INTO historico(id_historico,id_sensor,tipo_ocorrencia,data_ocorrencia) VALUES (%s,%s,%s,%s)",(str(max),idsensor,tipo,now.strftime('%Y-%m-%d %H:%M:%S')))
+        con.commit()
 def notificacao(tipo):
 	global con
         global sql
@@ -108,7 +106,8 @@ def agendamento(tipo):
 	    time.sleep(0.1)
 	    sql.execute('UPDATE agendamento SET situacao=2 where data_ativ=%s',(data[0]))
 	    con.commit()
-	    notificacao('Faltam menos de 5 minutos para o acionamento do alarme, que ocorre em ')
+	    inserir(None,'Faltam menos de 5 minutos para o acionamento do alarme')
+	   # notificacao('Faltam menos de 5 minutos para o acionamento do alarme, que ocorre em ')
 	  if datetime.datetime.now()>=datas and tipo=='data_ativ' and int(data[1])!=1:
 	    sql.execute('UPDATE sensors SET status=1 WHERE status=-1')
 	    con.commit()
@@ -128,10 +127,12 @@ def sensores():
 	sql = con.cursor()
 	validar=0
 	notific=0
+	hist=0
 	global ativar	
 	while True:	
 			if(GPIO.input(not_pin)):
-			  notificacao('Sujeito estranho na porta em ')
+			  inserir(None,'Sujeito estranho na porta')
+			  #notificacao('Sujeito estranho na porta em ')
 			  time.sleep(0.2)
 			sql.execute('SELECT pin, status, id FROM sensors')
 		        con.commit()
@@ -145,7 +146,7 @@ def sensores():
 				time.sleep(0.1)
                                 inserir(row[2],'disparo')
 				time.sleep(0.1)
-				notificacao('O alarme foi disparado em ')
+				#notificacao('O alarme foi disparado em ')
 			      disparar()
 			  # if GPIO.input(janela2) and int(row[1]) == 1:
 			  #    sql.execute('UPDATE sensors SET status=2 WHERE status=1')
@@ -175,24 +176,28 @@ def sensores():
 			sql.execute('SELECT nome, status,id FROM sensors')
 			con.commit()
 			for row in sql.fetchall():
-			  if GPIO.input(cam_pin)and int(row[1])!=-1:
+			  if GPIO.input(cam_pin)and int(row[1])!=-1 and hist==0:
 			     time.sleep(0.1)
+			     hist=1
 			     sql.execute('UPDATE sensors SET status=-1')
                              con.commit()
 			     time.sleep(0.1)
 			     inserir(None,'Alarme desativado pela camera')
 			     time.sleep(0.1)
+			hist=0
 			agendamento('data_desativ')
 			sql.execute('SELECT id, status FROM sensors')
 			con.commit()
 			for row in sql.fetchall():
 				if (int(row[1]) == 0 and ativar==1):
 					desativar()
-					inserir(None,'Alarme desativado pelo aplicativo')
-					notificacao(' O alarme foi desativado em ')
+				if (int(row[1]) == 0 and hist==0):
+					inserir(None,'Alarme desativado')
+					hist=1
+					#notificacao(' O alarme foi desativado em ')
 				        sql.execute('UPDATE sensors SET status=-1 WHERE status = 0')
                              	        con.commit()
-					
+			hist=0	
 
 def led():
     global start
